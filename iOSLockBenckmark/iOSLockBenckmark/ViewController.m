@@ -26,7 +26,7 @@ typedef NS_ENUM(NSUInteger, LockType) {
 
 
 NSTimeInterval TimeCosts[LockTypeCount] = {0};
-
+int TimeCount = 0;
 
 @interface ViewController ()
 
@@ -60,6 +60,7 @@ NSTimeInterval TimeCosts[LockTypeCount] = {0};
     for (NSUInteger i = 0; i < LockTypeCount; i++) {
         TimeCosts[i] = 0;
     }
+    TimeCount = 0;
     printf("---- clear ----\n\n");
 }
 
@@ -73,12 +74,13 @@ NSTimeInterval TimeCosts[LockTypeCount] = {0};
     printf("NSRecursiveLock:          %8.2f ms\n", TimeCosts[LockTypeNSRecursiveLock] * 1000);
     printf("NSConditionLock:          %8.2f ms\n", TimeCosts[LockTypeNSConditionLock] * 1000);
     printf("@synchronized:            %8.2f ms\n", TimeCosts[LockTypesynchronized] * 1000);
-    printf("---- fin (sum) ----\n\n");
+    printf("---- fin (sum:%d) ----\n\n",TimeCount);
 }
 
 
 - (void)test:(int)count {
     NSTimeInterval begin, end;
+    TimeCount += count;
     
     {
         OSSpinLock lock = OS_SPINLOCK_INIT;
